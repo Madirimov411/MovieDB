@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllMovieActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.AllMovieFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -24,7 +24,8 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/back"/>
+                    android:src="@drawable/back"
+                    android:id="@+id/ivBack"/>
 
                 <TextView
                     android:id="@+id/tvMovieType"
@@ -51,9 +52,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:paddingEnd="13dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rvAllMovieType"/>
+            android:id="@+id/rvAllMovieType"
+            tools:listitem="@layout/item_all_type"
+            app:spanCount="2"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
 
 
     </LinearLayout>
