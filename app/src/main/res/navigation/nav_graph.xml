@@ -9,12 +9,23 @@
         android:id="@+id/homeFragment"
         android:name="com.uzb7.moviedb.ui.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_allMovieFragment"
+            app:destination="@id/allMovieFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_aboutMovieFragment"
+            app:destination="@id/aboutMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/allMovieFragment"
         android:name="com.uzb7.moviedb.ui.fragment.AllMovieFragment"
         android:label="fragment_all_movie"
-        tools:layout="@layout/fragment_all_movie" />
+        tools:layout="@layout/fragment_all_movie" >
+        <action
+            android:id="@+id/action_allMovieFragment_to_aboutMovieFragment"
+            app:destination="@id/aboutMovieFragment" />
+    </fragment>
     <fragment
         android:id="@+id/aboutMovieFragment"
         android:name="com.uzb7.moviedb.ui.fragment.AboutMovieFragment"

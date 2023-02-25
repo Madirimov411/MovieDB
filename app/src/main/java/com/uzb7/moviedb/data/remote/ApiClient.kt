@@ -17,16 +17,15 @@ object ApiClient {
     }
 
     private val client= getClient()
-    private val retrofit= getRetrofit(client)
+    private val retrofit= getRetrofit()
 
     val apiService: ApiService = retrofit.create(ApiService::class.java)
 
 
-    fun getRetrofit(client: OkHttpClient):Retrofit{
+    fun getRetrofit():Retrofit{
         return Retrofit.Builder()
             .baseUrl(baseURL())
             .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
             .build()
     }
 
@@ -36,7 +35,6 @@ object ApiClient {
             builder.addHeader(
                 "api_key",
                 "99b4808386d0dc2136f0e6efe977a911"
-
             )
             chain.proceed(builder.build())
         })
