@@ -12,7 +12,7 @@
         android:layout_height="200dp"
         android:background="@color/black"
         app:shapeAppearanceOverlay="@style/circle"
-        android:id="@+id/ivMovie"/>
+        android:id="@+id/ivMovieAll"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -21,6 +21,6 @@
         android:text="movie name"
         android:textColor="@color/white"
         android:textSize="13sp"
-        android:id="@+id/tvMovieName"/>
+        android:id="@+id/tvMovieNameAll"/>
 
 </LinearLayout>

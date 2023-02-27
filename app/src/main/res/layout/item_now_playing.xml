@@ -48,7 +48,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:textSize="13sp"
-                    android:id="@+id/tvMovieName"/>
+                    android:id="@+id/tvMovieNameNowPlaying"/>
 
                 <TextView
                     android:layout_width="match_parent"

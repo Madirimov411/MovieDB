@@ -8,28 +8,29 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uzb7.moviedb.R
+import com.uzb7.moviedb.model.Result
 
-class TopRatedAdapter(val list: ArrayList<com.uzb7.moviedb.model.Result>):RecyclerView.Adapter<TopRatedAdapter.TopViewHolder>() {
+class UpcomingAdapter(val list: ArrayList<Result>):RecyclerView.Adapter<UpcomingAdapter.UpcomingViewHolder>() {
 
-    fun submitList(newList: ArrayList<com.uzb7.moviedb.model.Result>){
+    fun submitList(newList: ArrayList<Result>){
         list.clear()
         list.addAll(newList)
         notifyDataSetChanged()
     }
-    class TopViewHolder(view: View): RecyclerView.ViewHolder(view){
+    class UpcomingViewHolder(view: View): RecyclerView.ViewHolder(view){
         val movieImage=view.findViewById<ImageView>(R.id.ivMovieHome)
         val movieName=view.findViewById<TextView>(R.id.tvMovieNameHome)
 
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopViewHolder {
-        return TopViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_home_popular,parent,false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UpcomingViewHolder {
+        return UpcomingViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_home_popular,parent,false))
     }
 
     override fun getItemCount() = list.size
 
-    override fun onBindViewHolder(holder: TopViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: UpcomingViewHolder, position: Int) {
         val popular=list[position]
         holder.apply {
             Glide.with(movieImage).load("https://image.tmdb.org/t/p/w500${popular.poster_path}").placeholder(
@@ -37,5 +38,4 @@ class TopRatedAdapter(val list: ArrayList<com.uzb7.moviedb.model.Result>):Recycl
             movieName.text=popular.original_title
         }
     }
-
 }

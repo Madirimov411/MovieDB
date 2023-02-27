@@ -1,15 +1,18 @@
 package com.uzb7.moviedb.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.adapter.PopularAdapter
+import com.uzb7.moviedb.adapter.TopRatedAdapter
+import com.uzb7.moviedb.adapter.UpcomingAdapter
 import com.uzb7.moviedb.data.remote.ApiClient
 import com.uzb7.moviedb.databinding.FragmentHomeBinding
 import com.uzb7.moviedb.model.Popular
+import com.uzb7.moviedb.model.Result
 import com.uzb7.moviedb.utils.viewBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,8 +21,12 @@ import retrofit2.Response
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding by viewBinding { FragmentHomeBinding.bind(it) }
-    var list = ArrayList<com.uzb7.moviedb.model.Result>()
-    lateinit var adapter: PopularAdapter
+    var listPopular = ArrayList<Result>()
+    var listTopRated = ArrayList<Result>()
+    var listUpcoming = ArrayList<Result>()
+    lateinit var adapterPopular: PopularAdapter
+    lateinit var adapterTopRated: TopRatedAdapter
+    lateinit var adapterUpcoming: UpcomingAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,28 +36,105 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun initViews() {
         binding.apply {
             loadPopular()
-            adapter = PopularAdapter(list)
-            rvPopular.adapter = adapter
+            loadTopRated()
+            loadUpcoming()
+            rvPopularRefresh(listPopular)
+            rvTopRatedRefresh(listTopRated)
+            rvUpcomingRefresh(listUpcoming)
+
+            tvPopularAll.setOnClickListener {
+                val bundle = Bundle()
+                val type = "popular"
+                bundle.putString("movieType", type)
+                findNavController().navigate(R.id.action_homeFragment_to_allMovieFragment, bundle)
+            }
+            tvTopAll.setOnClickListener {
+                val bundle = Bundle()
+                val type = "top_rated"
+                bundle.putString("movieType", type)
+                findNavController().navigate(R.id.action_homeFragment_to_allMovieFragment, bundle)
+
+            }
+            tvUpcomingAll.setOnClickListener {
+                val bundle = Bundle()
+                val type = "upcoming"
+                bundle.putString("movieType", type)
+                findNavController().navigate(R.id.action_homeFragment_to_allMovieFragment, bundle)
+            }
+        }
+    }
+
+    private fun rvUpcomingRefresh(listUpcoming: java.util.ArrayList<Result>) {
+        binding.apply {
+            adapterUpcoming = UpcomingAdapter(listUpcoming)
+            rvUpcoming.adapter = adapterUpcoming
+            rvUpcoming.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
+
+    private fun rvTopRatedRefresh(listTopRated: java.util.ArrayList<Result>) {
+        binding.apply {
+            adapterTopRated = TopRatedAdapter(listTopRated)
+            rvTopRated.adapter = adapterTopRated
+            rvTopRated.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
+
+    private fun rvPopularRefresh(listPopular: java.util.ArrayList<Result>) {
+        binding.apply {
+            adapterPopular = PopularAdapter(listPopular)
+            rvPopular.adapter = adapterPopular
             rvPopular.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
     private fun loadPopular() {
-        ApiClient.apiService.getPopular().enqueue(object : Callback<Popular> {
-            override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
-                if(response.isSuccessful){
-                    list=response.body()!!.results
-                    adapter.submitList(list)
+        ApiClient.apiService.getPopular("99b4808386d0dc2136f0e6efe977a911", 1)
+            .enqueue(object : Callback<Popular> {
+                override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
+                    if (response.isSuccessful) {
+                        listPopular = response.body()!!.results
+                        adapterPopular.submitList(listPopular)
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<Popular>, t: Throwable) {
-
-            }
-
-
-        })
+                override fun onFailure(call: Call<Popular>, t: Throwable) {
+                }
+            })
     }
+
+    private fun loadTopRated() {
+        ApiClient.apiService.getTopRated("99b4808386d0dc2136f0e6efe977a911", 1)
+            .enqueue(object : Callback<Popular> {
+                override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
+                    if (response.isSuccessful) {
+                        listTopRated = response.body()!!.results
+                        adapterTopRated.submitList(listTopRated)
+                    }
+                }
+
+                override fun onFailure(call: Call<Popular>, t: Throwable) {
+                }
+            })
+    }
+
+    private fun loadUpcoming() {
+        ApiClient.apiService.getUpcoming("99b4808386d0dc2136f0e6efe977a911", 1)
+            .enqueue(object : Callback<Popular> {
+                override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
+                    if (response.isSuccessful) {
+                        listUpcoming = response.body()!!.results
+                        adapterUpcoming.submitList(listUpcoming)
+                    }
+                }
+
+                override fun onFailure(call: Call<Popular>, t: Throwable) {
+                }
+            })
+    }
+
 
 }

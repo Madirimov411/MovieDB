@@ -19,8 +19,8 @@ class PopularAdapter(val list: ArrayList<com.uzb7.moviedb.model.Result>):Recycle
         notifyDataSetChanged()
     }
     class PopularViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val movieImage=view.findViewById<ImageView>(R.id.ivMovie)
-        val movieName=view.findViewById<TextView>(R.id.tvMovieName)
+        val movieImage=view.findViewById<ImageView>(R.id.ivMovieHome)
+        val movieName=view.findViewById<TextView>(R.id.tvMovieNameHome)
 
 
     }
