@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uzb7.moviedb.R
+import com.uzb7.moviedb.utils.CreateUrl
 
 class TopRatedAdapter(val list: ArrayList<com.uzb7.moviedb.model.Result>):RecyclerView.Adapter<TopRatedAdapter.TopViewHolder>() {
 
@@ -32,7 +33,7 @@ class TopRatedAdapter(val list: ArrayList<com.uzb7.moviedb.model.Result>):Recycl
     override fun onBindViewHolder(holder: TopViewHolder, position: Int) {
         val popular=list[position]
         holder.apply {
-            Glide.with(movieImage).load("https://image.tmdb.org/t/p/w500${popular.poster_path}").placeholder(
+            Glide.with(movieImage).load(CreateUrl.imageOpen(popular.poster_path)).placeholder(
                 R.drawable.loading).into(movieImage)
             movieName.text=popular.original_title
         }

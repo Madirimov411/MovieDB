@@ -10,20 +10,26 @@ interface ApiService {
 
     @GET("popular")
     fun getPopular(
-        @Query("api_key") api_key: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String="99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
     @GET("top_rated")
     fun getTopRated(
-        @Query("api_key") api_key: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String="99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
     @GET("upcoming")
     fun getUpcoming(
-        @Query("api_key") api_key: String,
-        @Query("page") page: Int
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String="99b4808386d0dc2136f0e6efe977a911"
+    ): Call<Popular>
+
+    @GET("now_playing")
+    fun getNowPlaying(
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String="99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
 

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.uzb7.moviedb.R
+import com.uzb7.moviedb.adapter.NowPlayingAdapter
 import com.uzb7.moviedb.adapter.PopularAdapter
 import com.uzb7.moviedb.adapter.TopRatedAdapter
 import com.uzb7.moviedb.adapter.UpcomingAdapter
@@ -24,9 +25,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     var listPopular = ArrayList<Result>()
     var listTopRated = ArrayList<Result>()
     var listUpcoming = ArrayList<Result>()
+    var listNowPlaying = ArrayList<Result>()
     lateinit var adapterPopular: PopularAdapter
     lateinit var adapterTopRated: TopRatedAdapter
     lateinit var adapterUpcoming: UpcomingAdapter
+    lateinit var adapterNowPlaying: NowPlayingAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,9 +41,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             loadPopular()
             loadTopRated()
             loadUpcoming()
+            loadNowPlaying()
             rvPopularRefresh(listPopular)
             rvTopRatedRefresh(listTopRated)
             rvUpcomingRefresh(listUpcoming)
+            rvNowPlayingRefresh(listNowPlaying)
 
             tvPopularAll.setOnClickListener {
                 val bundle = Bundle()
@@ -91,8 +96,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    private fun rvNowPlayingRefresh(list: java.util.ArrayList<Result>) {
+        binding.apply {
+            adapterNowPlaying = NowPlayingAdapter(list)
+            rvNowPlaying.adapter = adapterNowPlaying
+            rvNowPlaying.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
+
     private fun loadPopular() {
-        ApiClient.apiService.getPopular("99b4808386d0dc2136f0e6efe977a911", 1)
+        ApiClient.apiService.getPopular(1)
             .enqueue(object : Callback<Popular> {
                 override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                     if (response.isSuccessful) {
@@ -107,7 +121,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun loadTopRated() {
-        ApiClient.apiService.getTopRated("99b4808386d0dc2136f0e6efe977a911", 1)
+        ApiClient.apiService.getTopRated(1)
             .enqueue(object : Callback<Popular> {
                 override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                     if (response.isSuccessful) {
@@ -122,7 +136,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun loadUpcoming() {
-        ApiClient.apiService.getUpcoming("99b4808386d0dc2136f0e6efe977a911", 1)
+        ApiClient.apiService.getUpcoming(1)
             .enqueue(object : Callback<Popular> {
                 override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                     if (response.isSuccessful) {
@@ -134,6 +148,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 override fun onFailure(call: Call<Popular>, t: Throwable) {
                 }
             })
+    }
+
+    private fun loadNowPlaying(){
+        ApiClient.apiService.getNowPlaying(1).enqueue(object :Callback<Popular>{
+            override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
+                if (response.isSuccessful){
+                    listNowPlaying=response.body()!!.results
+                    adapterNowPlaying.submitlist(listNowPlaying)
+                }
+            }
+
+            override fun onFailure(call: Call<Popular>, t: Throwable) {
+
+            }
+
+        })
     }
 
 

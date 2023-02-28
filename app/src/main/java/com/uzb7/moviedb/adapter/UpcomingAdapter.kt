@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.model.Result
+import com.uzb7.moviedb.utils.CreateUrl
 
 class UpcomingAdapter(val list: ArrayList<Result>):RecyclerView.Adapter<UpcomingAdapter.UpcomingViewHolder>() {
 
@@ -33,7 +34,7 @@ class UpcomingAdapter(val list: ArrayList<Result>):RecyclerView.Adapter<Upcoming
     override fun onBindViewHolder(holder: UpcomingViewHolder, position: Int) {
         val popular=list[position]
         holder.apply {
-            Glide.with(movieImage).load("https://image.tmdb.org/t/p/w500${popular.poster_path}").placeholder(
+            Glide.with(movieImage).load(CreateUrl.imageOpen(popular.poster_path)).placeholder(
                 R.drawable.loading).into(movieImage)
             movieName.text=popular.original_title
         }

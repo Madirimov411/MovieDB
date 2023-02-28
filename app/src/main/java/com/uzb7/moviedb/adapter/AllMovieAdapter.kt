@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.model.Result
+import com.uzb7.moviedb.utils.CreateUrl
 
 class AllMovieAdapter(private val list: ArrayList<Result>):RecyclerView.Adapter<AllMovieAdapter.AllMovieViewHolder>() {
 
@@ -31,7 +32,7 @@ class AllMovieAdapter(private val list: ArrayList<Result>):RecyclerView.Adapter<
     override fun onBindViewHolder(holder: AllMovieViewHolder, position: Int) {
         val allType=list[position]
         holder.apply {
-            Glide.with(image).load(allType.poster_path).into(image)
+            Glide.with(image).load(CreateUrl.imageOpen(allType.poster_path)).into(image)
             name.text=allType.original_title
         }
     }

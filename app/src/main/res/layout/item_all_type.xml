@@ -9,8 +9,9 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="230dp"
         android:background="@color/black"
+        android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/circle"
         android:id="@+id/ivMovieAll"/>
 
