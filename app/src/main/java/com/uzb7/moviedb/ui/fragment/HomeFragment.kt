@@ -93,6 +93,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvPopular.adapter = adapterPopular
             rvPopular.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapterPopular.detail={
+                val bundle=Bundle()
+                bundle.putInt("id",it)
+                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
+            }
         }
     }
 

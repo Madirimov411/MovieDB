@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="280dp"
     android:layout_marginEnd="8dp"
+    android:id="@+id/youtubeTrailer"
     android:background="@drawable/trailer_recycler_background"
     android:layout_height="150dp">
 

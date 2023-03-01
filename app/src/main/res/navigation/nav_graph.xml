@@ -35,5 +35,9 @@
         android:id="@+id/aboutMovieFragment"
         android:name="com.uzb7.moviedb.ui.fragment.AboutMovieFragment"
         android:label="fragment_about_movie"
-        tools:layout="@layout/fragment_about_movie" />
+        tools:layout="@layout/fragment_about_movie" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
