@@ -1,6 +1,7 @@
 package com.uzb7.moviedb.data.remote
 
 import com.uzb7.moviedb.model.Popular
+import com.uzb7.moviedb.model.similar_movie.Similar
 import com.uzb7.moviedb.model.youtube_videos.AboutMovie
 import retrofit2.Call
 import retrofit2.http.GET
@@ -38,6 +39,15 @@ interface ApiService {
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911",
         @Query("append_to_response") append_to_response:String = "videos,images"
     ):Call<AboutMovie>
+
+    @GET("{id}/similar")
+    fun getSimilarMovie(
+        @Path("id") id: Int,
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
+    ):Call<Similar>
+
+
 
 
 }

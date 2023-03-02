@@ -16,9 +16,4 @@
         android:layout_height="55dp"
         android:src="@drawable/ic_play"
         android:layout_gravity="center"/>
-
-
-
-
-
 </FrameLayout>

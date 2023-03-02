@@ -60,6 +60,7 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/ivMovieAbout"
                     android:layout_width="130dp"
+                    android:scaleType="centerCrop"
                     android:layout_height="170dp"
                     android:background="@color/black"
                     app:shapeAppearanceOverlay="@style/circle" />
@@ -205,14 +206,32 @@
                 android:textSize="17sp"
                 android:textStyle="bold"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_marginTop="7dp"
+            <FrameLayout
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:listitem="@layout/item_trailler"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:id="@+id/rvTrailer"/>
+                android:layout_height="160dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="7dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/item_trailler"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:id="@+id/rvTrailer"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/about_movie"
+                    android:gravity="center"
+                    android:text="No trailers"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"
+                    android:id="@+id/tvNoTrailers"/>
+
+
+            </FrameLayout>
 
             <TextView
                 android:layout_marginTop="12dp"
@@ -244,7 +263,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="180dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_similer_movies"
