@@ -70,6 +70,8 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
             rvTrailer.adapter=adapter
             rvTrailer.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
             adapter.trailer={loadTrailer(it)}
+
+
         }
     }
 
