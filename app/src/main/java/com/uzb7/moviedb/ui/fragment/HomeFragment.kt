@@ -75,6 +75,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvUpcoming.adapter = adapterUpcoming
             rvUpcoming.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapterUpcoming.detail={
+                val bundle=Bundle()
+                bundle.putInt("id",it)
+                bundle.putInt("which",1)
+                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
+            }
         }
     }
 
@@ -84,6 +90,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvTopRated.adapter = adapterTopRated
             rvTopRated.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapterTopRated.detail={
+                val bundle=Bundle()
+                bundle.putInt("id",it)
+                bundle.putInt("which",1)
+                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
+            }
         }
     }
 
@@ -96,6 +108,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             adapterPopular.detail={
                 val bundle=Bundle()
                 bundle.putInt("id",it)
+                bundle.putInt("which",1)
                 findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
             }
         }

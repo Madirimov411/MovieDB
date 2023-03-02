@@ -46,6 +46,12 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                 adapterMovieType = AllMovieAdapter(listAllType)
                 rvAllMovieType.adapter = adapterMovieType
                 rvAllMovieType.layoutManager = manager
+                adapterMovieType.detail={
+                    val bundle=Bundle()
+                    bundle.putInt("id",it)
+                    bundle.putInt("which",2)
+                    findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
+                }
                 val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                         loadPopular()
@@ -58,6 +64,12 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                 adapterMovieType = AllMovieAdapter(listAllType)
                 rvAllMovieType.adapter = adapterMovieType
                 rvAllMovieType.layoutManager = manager
+                adapterMovieType.detail={
+                    val bundle=Bundle()
+                    bundle.putInt("id",it)
+                    bundle.putInt("which",2)
+                    findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
+                }
                 val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                         loadTopRated()
@@ -71,6 +83,12 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                 adapterMovieType = AllMovieAdapter(listAllType)
                 rvAllMovieType.adapter = adapterMovieType
                 rvAllMovieType.layoutManager = manager
+                adapterMovieType.detail={
+                    val bundle=Bundle()
+                    bundle.putInt("id",it)
+                    bundle.putInt("which",2)
+                    findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
+                }
                 val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                         loadUpcoming()
@@ -132,4 +150,5 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
         page+=1
         return page
     }
+
 }

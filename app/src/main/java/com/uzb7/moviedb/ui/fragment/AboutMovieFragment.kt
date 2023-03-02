@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -40,9 +41,16 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
 
     private fun initViews() {
         val id = args.id
+        val which = args.which
         binding.apply {
             loadMovie(id)
-
+            ivBack.setOnClickListener {
+                if (which == 1) {
+                    findNavController().navigate(R.id.action_aboutMovieFragment_to_homeFragment)
+                } else {
+                    findNavController().navigate(R.id.action_aboutMovieFragment_to_allMovieFragment)
+                }
+            }
 
         }
     }
@@ -93,6 +101,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                     loadSimilarRV()
                 }
             }
+
             override fun onFailure(call: Call<Similar>, t: Throwable) {
             }
 
@@ -101,12 +110,14 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
 
     private fun loadSimilarRV() {
         binding.apply {
-            val adapter = SimilarMovieAdapter(listSimilar)
-            rvSimilar.adapter = adapter
-            rvSimilar.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter.about = {
-                loadMovie(it)
+            if (listSimilar != null) {
+                val adapter = SimilarMovieAdapter(listSimilar)
+                rvSimilar.adapter = adapter
+                rvSimilar.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                adapter.about = {
+                    loadMovie(it)
+                }
             }
         }
     }
@@ -115,7 +126,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         binding.apply {
             list = aboutMovie.videos.results
 
-            if(list!=null){
+            if (list != null) {
                 tvNoTrailers.hide()
                 val adapter = DetailMovieAdapter(list)
                 rvTrailer.adapter = adapter
@@ -126,8 +137,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                         Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=$it"))
                     startActivity(implicit)
                 }
-            }
-            else{
+            } else {
                 rvTrailer.hide()
             }
 
