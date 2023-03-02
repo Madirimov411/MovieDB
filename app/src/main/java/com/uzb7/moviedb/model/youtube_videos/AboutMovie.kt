@@ -8,6 +8,7 @@ data class AboutMovie(
     val genres: ArrayList<Genre>,
     val homepage: String,
     val id: Int,
+    val images: Images,
     val imdb_id: String,
     val original_language: String,
     val original_title: String,

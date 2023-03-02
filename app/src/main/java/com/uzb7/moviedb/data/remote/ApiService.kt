@@ -36,7 +36,7 @@ interface ApiService {
     fun getMovieById(
         @Path("id") id: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911",
-        @Query("append_to_response") append_to_response:String = "videos"
+        @Query("append_to_response") append_to_response:String = "videos,images"
     ):Call<AboutMovie>
 
 
