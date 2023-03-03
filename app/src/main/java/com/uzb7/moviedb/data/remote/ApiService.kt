@@ -9,44 +9,51 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    @GET("popular")
+    @GET("movie/popular")
     fun getPopular(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
-    @GET("top_rated")
+    @GET("movie/top_rated")
     fun getTopRated(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
-    @GET("upcoming")
+    @GET("movie/upcoming")
     fun getUpcoming(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
-    @GET("now_playing")
+    @GET("movie/now_playing")
     fun getNowPlaying(
         @Query("page") page: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
     ): Call<Popular>
 
-    @GET("{id}")
+    @GET("movie/{id}")
     fun getMovieById(
         @Path("id") id: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911",
         @Query("append_to_response") append_to_response:String = "videos,images"
     ):Call<AboutMovie>
 
-    @GET("{id}/similar")
+    @GET("movie/{id}/similar")
     fun getSimilarMovie(
         @Path("id") id: Int,
         @Query("page") page: Int,
         @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
     ):Call<Similar>
 
+
+    @GET("search/movie")
+    fun getSearch(
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"
+    ):Call<Popular>
 
 
 

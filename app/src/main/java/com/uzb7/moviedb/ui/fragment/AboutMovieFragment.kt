@@ -28,7 +28,7 @@ import retrofit2.Response
 
 class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     lateinit var aboutMovie: AboutMovie
-    lateinit var list: ArrayList<com.uzb7.moviedb.model.youtube_videos.Result>
+    lateinit var list: ArrayList<Result>
     lateinit var listSimilar: ArrayList<com.uzb7.moviedb.model.similar_movie.Result>
     private val binding by viewBinding { FragmentAboutMovieBinding.bind(it) }
     private val args: AboutMovieFragmentArgs by navArgs()
@@ -42,13 +42,16 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     private fun initViews() {
         val id = args.id
         val which = args.which
+        val type=args.type
         binding.apply {
             loadMovie(id)
             ivBack.setOnClickListener {
                 if (which == 1) {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_homeFragment)
                 } else {
-                    findNavController().navigate(R.id.action_aboutMovieFragment_to_allMovieFragment)
+                    var bundle=Bundle()
+                    bundle.putString("movieType","$type")
+                    findNavController().navigate(R.id.action_aboutMovieFragment_to_allMovieFragment,bundle)
                 }
             }
 

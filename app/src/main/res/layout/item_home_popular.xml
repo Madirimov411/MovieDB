@@ -16,12 +16,13 @@
         android:id="@+id/ivMovieHome"/>
 
     <TextView
+        android:layout_marginTop="4dp"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="movie name"
         android:textColor="@color/white"
-        android:textSize="13sp"
+        android:textSize="11sp"
         android:id="@+id/tvMovieNameHome"/>
 
 

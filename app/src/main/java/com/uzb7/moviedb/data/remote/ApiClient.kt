@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object ApiClient {
 
     val isTester = true
-    val SERVER_DEVELOPMENT = "https://api.themoviedb.org/3/movie/"
-    val SERVER_PRODUCTION = "https://api.themoviedb.org/3/movie/"
+    val SERVER_DEVELOPMENT = "https://api.themoviedb.org/3/"
+    val SERVER_PRODUCTION = "https://api.themoviedb.org/3/m"
 
     fun baseURL(): String {
         if (isTester) return SERVER_DEVELOPMENT

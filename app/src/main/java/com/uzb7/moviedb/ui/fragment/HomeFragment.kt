@@ -1,10 +1,16 @@
 package com.uzb7.moviedb.ui.fragment
 
+import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.adapter.NowPlayingAdapter
 import com.uzb7.moviedb.adapter.PopularAdapter
@@ -14,6 +20,8 @@ import com.uzb7.moviedb.data.remote.ApiClient
 import com.uzb7.moviedb.databinding.FragmentHomeBinding
 import com.uzb7.moviedb.model.Popular
 import com.uzb7.moviedb.model.Result
+import com.uzb7.moviedb.utils.Extension.hide
+import com.uzb7.moviedb.utils.Extension.show
 import com.uzb7.moviedb.utils.viewBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,6 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initViews() {
         binding.apply {
+            tvNoInternet.hide()
             loadPopular()
             loadTopRated()
             loadUpcoming()
@@ -47,25 +56,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvUpcomingRefresh(listUpcoming)
             rvNowPlayingRefresh(listNowPlaying)
 
+            ivSearch.setOnClickListener{
+                findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+            }
+
             tvPopularAll.setOnClickListener {
                 val bundle = Bundle()
                 val type = "popular"
                 bundle.putString("movieType", type)
-                findNavController().navigate(R.id.action_homeFragment_to_allMovieFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_allMovieFragment,
+                    bundle
+                )
             }
             tvTopAll.setOnClickListener {
                 val bundle = Bundle()
                 val type = "top_rated"
                 bundle.putString("movieType", type)
-                findNavController().navigate(R.id.action_homeFragment_to_allMovieFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_allMovieFragment,
+                    bundle
+                )
 
             }
             tvUpcomingAll.setOnClickListener {
                 val bundle = Bundle()
                 val type = "upcoming"
                 bundle.putString("movieType", type)
-                findNavController().navigate(R.id.action_homeFragment_to_allMovieFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_allMovieFragment,
+                    bundle
+                )
             }
+
         }
     }
 
@@ -75,11 +98,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvUpcoming.adapter = adapterUpcoming
             rvUpcoming.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapterUpcoming.detail={
-                val bundle=Bundle()
-                bundle.putInt("id",it)
-                bundle.putInt("which",1)
-                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
+            adapterUpcoming.detail = {
+                val bundle = Bundle()
+                bundle.putInt("id", it)
+                bundle.putInt("which", 1)
+                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment, bundle)
             }
         }
     }
@@ -90,11 +113,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvTopRated.adapter = adapterTopRated
             rvTopRated.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapterTopRated.detail={
-                val bundle=Bundle()
-                bundle.putInt("id",it)
-                bundle.putInt("which",1)
-                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
+            adapterTopRated.detail = {
+                val bundle = Bundle()
+                bundle.putInt("id", it)
+                bundle.putInt("which", 1)
+                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment, bundle)
             }
         }
     }
@@ -105,11 +128,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvPopular.adapter = adapterPopular
             rvPopular.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapterPopular.detail={
-                val bundle=Bundle()
-                bundle.putInt("id",it)
-                bundle.putInt("which",1)
-                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment,bundle)
+            adapterPopular.detail = {
+                val bundle = Bundle()
+                bundle.putInt("id", it)
+                bundle.putInt("which", 1)
+                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment, bundle)
             }
         }
     }
@@ -168,11 +191,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             })
     }
 
-    private fun loadNowPlaying(){
-        ApiClient.apiService.getNowPlaying(1).enqueue(object :Callback<Popular>{
+    private fun loadNowPlaying() {
+        ApiClient.apiService.getNowPlaying(1).enqueue(object : Callback<Popular> {
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
-                if (response.isSuccessful){
-                    listNowPlaying=response.body()!!.results
+                if (response.isSuccessful) {
+                    listNowPlaying = response.body()!!.results
                     adapterNowPlaying.submitlist(listNowPlaying)
                 }
             }
@@ -183,6 +206,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         })
     }
+
+
 
 
 }

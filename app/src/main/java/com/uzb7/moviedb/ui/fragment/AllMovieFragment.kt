@@ -14,6 +14,8 @@ import com.uzb7.moviedb.data.remote.ApiClient
 import com.uzb7.moviedb.databinding.FragmentAllMovieBinding
 import com.uzb7.moviedb.model.Popular
 import com.uzb7.moviedb.model.Result
+import com.uzb7.moviedb.utils.Extension.hide
+import com.uzb7.moviedb.utils.Extension.show
 import com.uzb7.moviedb.utils.viewBinding
 import com.uzb7.mycats.utils.EndlessRecyclerViewScrollListener
 import retrofit2.Call
@@ -50,6 +52,7 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                     val bundle=Bundle()
                     bundle.putInt("id",it)
                     bundle.putInt("which",2)
+                    bundle.putString("type","popular")
                     findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
                 }
                 val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
@@ -68,6 +71,7 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                     val bundle=Bundle()
                     bundle.putInt("id",it)
                     bundle.putInt("which",2)
+                    bundle.putString("type","top_rated")
                     findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
                 }
                 val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
@@ -87,6 +91,7 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                     val bundle=Bundle()
                     bundle.putInt("id",it)
                     bundle.putInt("which",2)
+                    bundle.putString("type","upcoming")
                     findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
                 }
                 val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
@@ -101,13 +106,13 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
     }
 
     private fun loadPopular() {
-        Log.d("@@@@", "loadPopular: ")
+        binding.animationView.show()
         ApiClient.apiService.getPopular(getPages()).enqueue(object : Callback<Popular> {
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                 if (response.isSuccessful) {
                     listAllType = response.body()!!.results
                     adapterMovieType.submitList(listAllType)
-                    Log.d("@@@@","${response.body()!!.results}")
+                    binding.animationView.hide()
                 }
             }
 
@@ -117,11 +122,13 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
     }
 
     private fun loadTopRated() {
+        binding.animationView.show()
         ApiClient.apiService.getTopRated(getPages()).enqueue(object : Callback<Popular> {
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                 if (response.isSuccessful) {
                     listAllType = response.body()!!.results
                     adapterMovieType.submitList(listAllType)
+                    binding.animationView.hide()
                     Log.d("@@@@","${response.body()!!.results}" )
                 }
             }
@@ -132,11 +139,13 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
     }
 
     private fun loadUpcoming() {
+        binding.animationView.show()
         ApiClient.apiService.getUpcoming(getPages()).enqueue(object : Callback<Popular> {
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                 if (response.isSuccessful) {
                     listAllType = response.body()!!.results
                     adapterMovieType.submitList(listAllType)
+                    binding.animationView.hide()
                     Log.d("@@@@","${response.body()!!.results}" )
                 }
             }

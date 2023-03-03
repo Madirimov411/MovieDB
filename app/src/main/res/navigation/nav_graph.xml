@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_aboutMovieFragment"
             app:destination="@id/aboutMovieFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/allMovieFragment"
@@ -48,5 +51,15 @@
         <argument
             android:name="which"
             app:argType="integer" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="home" />
     </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.uzb7.moviedb.ui.fragment.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>
