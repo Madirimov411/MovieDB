@@ -13,8 +13,11 @@ import com.bumptech.glide.Glide
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.adapter.DetailMovieAdapter
 import com.uzb7.moviedb.adapter.SimilarMovieAdapter
+import com.uzb7.moviedb.adapter.TopCastAdapter
 import com.uzb7.moviedb.data.remote.ApiClient
 import com.uzb7.moviedb.databinding.FragmentAboutMovieBinding
+import com.uzb7.moviedb.model.actors.Actors
+import com.uzb7.moviedb.model.actors.Cast
 import com.uzb7.moviedb.model.similar_movie.Similar
 import com.uzb7.moviedb.model.youtube_videos.AboutMovie
 import com.uzb7.moviedb.model.youtube_videos.Result
@@ -30,6 +33,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     lateinit var aboutMovie: AboutMovie
     lateinit var list: ArrayList<Result>
     lateinit var listSimilar: ArrayList<com.uzb7.moviedb.model.similar_movie.Result>
+    lateinit var listCast: ArrayList<Cast>
     private val binding by viewBinding { FragmentAboutMovieBinding.bind(it) }
     private val args: AboutMovieFragmentArgs by navArgs()
 
@@ -63,7 +67,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         ApiClient.apiService.getMovieById(id).enqueue(object : Callback<AboutMovie> {
             override fun onResponse(call: Call<AboutMovie>, response: Response<AboutMovie>) {
                 aboutMovie = response.body()!!
-                setAboutMovie()
+                setAboutMovie(id)
             }
 
             override fun onFailure(call: Call<AboutMovie>, t: Throwable) {
@@ -73,7 +77,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         })
     }
 
-    private fun setAboutMovie() {
+    private fun setAboutMovie(id:Int) {
         binding.apply {
             tvMovieNameAbout.text = aboutMovie.title
             Glide.with(ivMovieAbout).load(CreateUrl.imageOpen(aboutMovie.poster_path))
@@ -90,7 +94,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
             tvmovieAbout.text = aboutMovie.overview
             loadTrailer()
             loadSimilar(aboutMovie.id)
-
+            loadMovieComposition(id)
 
         }
     }
@@ -125,6 +129,29 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         }
     }
 
+    private fun loadMovieComposition(id:Int){
+        ApiClient.apiService.getMovieComposition(id).enqueue(object :Callback<Actors>{
+            override fun onResponse(call: Call<Actors>, response: Response<Actors>) {
+                if (response.isSuccessful){
+                    listCast=response.body()!!.cast
+                    loadCast()
+                }
+            }
+
+            override fun onFailure(call: Call<Actors>, t: Throwable) {
+            }
+
+        })
+    }
+
+    private fun loadCast() {
+        binding.apply{
+            val adapter = TopCastAdapter(listCast)
+            rvTopBilledCast.adapter=adapter
+            rvTopBilledCast.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        }
+    }
+
     private fun loadTrailer() {
         binding.apply {
             list = aboutMovie.videos.results
@@ -137,7 +164,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter.trailer = {
                     val implicit =
-                        Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=$it"))
+                        Intent(Intent.ACTION_VIEW, Uri.parse(CreateUrl.youtubeOpen(it)))
                     startActivity(implicit)
                 }
             } else {

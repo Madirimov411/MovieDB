@@ -90,7 +90,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             else{
                 llHome.hide()
                 tvNoInternet.show()
-                tvNoInternet.layout
             }
 
         }

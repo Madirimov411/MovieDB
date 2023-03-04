@@ -1,16 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="100dp"
     android:layout_marginEnd="5dp"
-    android:background="@drawable/top_billed_cast_background"
-    android:layout_height="140dp">
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
 
-    <ImageView
+    <LinearLayout
+        android:background="@drawable/top_billed_cast_background"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_person"
-        android:id="@+id/ivActors"/>
+        android:layout_height="138dp">
+
+        <ImageView
+            android:layout_margin="2dp"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_person"
+            android:id="@+id/ivActors"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="actor"
+        android:textColor="@color/white"
+        android:id="@+id/tvActorName"
+        android:gravity="center"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="movie name"
+        android:textColor="#CFCCCC"
+        android:id="@+id/tvAcrorMovieName"
+        android:gravity="center"
+        android:textSize="10sp"/>
 
 
 
-</FrameLayout>
+
+</LinearLayout>
