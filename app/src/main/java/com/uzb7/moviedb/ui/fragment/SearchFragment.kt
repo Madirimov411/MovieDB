@@ -8,12 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.adapter.SearchAdapter
 import com.uzb7.moviedb.data.remote.ApiClient
 import com.uzb7.moviedb.databinding.FragmentSearchBinding
 import com.uzb7.moviedb.model.Popular
+import com.uzb7.moviedb.utils.Extension.hide
+import com.uzb7.moviedb.utils.Extension.show
 import com.uzb7.moviedb.utils.viewBinding
+import com.uzb7.mycats.utils.EndlessRecyclerViewScrollListener
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Callback
@@ -33,13 +37,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun initViews() {
         binding.apply {
             try{
+                val manager=GridLayoutManager(requireContext(), 2)
                 etSearch.addTextChangedListener {
-
                     loadSearch(etSearch.text.toString())
                     adapter = SearchAdapter(list)
                     rvSearch.adapter = adapter
-                    rvSearch.layoutManager = GridLayoutManager(requireContext(), 2)
-
+                    rvSearch.layoutManager = manager
+                    val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
+                        override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                            loadSearch(etSearch.text.toString())
+                        }
+                    }
+                    rvSearch.addOnScrollListener(scrollListener)
                 }
             }finally{
 
@@ -49,11 +58,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun loadSearch(s: String) {
+        binding.animationView.show()
         ApiClient.apiService.getSearch(s,getPage(pages)).enqueue(object :Callback<Popular>{
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                 if(response.isSuccessful){
                     list=response.body()!!.results
                     adapter.submitList(list)
+                    binding.animationView.hide()
                 }
             }
 

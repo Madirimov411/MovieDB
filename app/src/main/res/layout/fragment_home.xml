@@ -57,6 +57,8 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -197,17 +199,18 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="No Internet"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center"
-                    android:textSize="18sp"
-                    android:id="@+id/tvNoInternet"/>
 
 
             </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Internet"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:id="@+id/tvNoInternet"/>
 
         </LinearLayout>
 

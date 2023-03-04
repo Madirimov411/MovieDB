@@ -1,6 +1,5 @@
 package com.uzb7.moviedb.ui.fragment
 
-import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -9,8 +8,6 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.test.core.app.ApplicationProvider
-import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.adapter.NowPlayingAdapter
 import com.uzb7.moviedb.adapter.PopularAdapter
@@ -46,47 +43,54 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initViews() {
         binding.apply {
-            tvNoInternet.hide()
-            loadPopular()
-            loadTopRated()
-            loadUpcoming()
-            loadNowPlaying()
-            rvPopularRefresh(listPopular)
-            rvTopRatedRefresh(listTopRated)
-            rvUpcomingRefresh(listUpcoming)
-            rvNowPlayingRefresh(listNowPlaying)
+            if (isInternetAviable()) {
+                tvNoInternet.hide()
+                loadPopular()
+                loadTopRated()
+                loadUpcoming()
+                loadNowPlaying()
+                rvPopularRefresh(listPopular)
+                rvTopRatedRefresh(listTopRated)
+                rvUpcomingRefresh(listUpcoming)
+                rvNowPlayingRefresh(listNowPlaying)
 
-            ivSearch.setOnClickListener{
-                findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
-            }
+                ivSearch.setOnClickListener {
+                    findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
+                }
 
-            tvPopularAll.setOnClickListener {
-                val bundle = Bundle()
-                val type = "popular"
-                bundle.putString("movieType", type)
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_allMovieFragment,
-                    bundle
-                )
-            }
-            tvTopAll.setOnClickListener {
-                val bundle = Bundle()
-                val type = "top_rated"
-                bundle.putString("movieType", type)
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_allMovieFragment,
-                    bundle
-                )
+                tvPopularAll.setOnClickListener {
+                    val bundle = Bundle()
+                    val type = "popular"
+                    bundle.putString("movieType", type)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_allMovieFragment,
+                        bundle
+                    )
+                }
+                tvTopAll.setOnClickListener {
+                    val bundle = Bundle()
+                    val type = "top_rated"
+                    bundle.putString("movieType", type)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_allMovieFragment,
+                        bundle
+                    )
 
+                }
+                tvUpcomingAll.setOnClickListener {
+                    val bundle = Bundle()
+                    val type = "upcoming"
+                    bundle.putString("movieType", type)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_allMovieFragment,
+                        bundle
+                    )
+                }
             }
-            tvUpcomingAll.setOnClickListener {
-                val bundle = Bundle()
-                val type = "upcoming"
-                bundle.putString("movieType", type)
-                findNavController().navigate(
-                    R.id.action_homeFragment_to_allMovieFragment,
-                    bundle
-                )
+            else{
+                llHome.hide()
+                tvNoInternet.show()
+                tvNoInternet.layout
             }
 
         }
@@ -208,6 +212,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
+    private fun isInternetAviable(): Boolean {
+        val manager = activity?.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val infoMobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        val infoWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        return infoMobile!!.isConnected || infoWifi!!.isConnected
+    }
 
 
 }
