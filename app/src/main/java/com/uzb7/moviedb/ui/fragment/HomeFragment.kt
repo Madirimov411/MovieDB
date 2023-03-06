@@ -43,6 +43,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initViews() {
         binding.apply {
+
+
+
             if (isInternetAviable()) {
                 tvNoInternet.hide()
                 loadPopular()

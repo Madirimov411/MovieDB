@@ -43,6 +43,8 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
 
+
+
     private fun initViews() {
         val id = args.id
         val which = args.which
@@ -52,14 +54,24 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
             ivBack.setOnClickListener {
                 if (which == 1) {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_homeFragment)
-                } else {
+                } else if(which==2) {
                     var bundle=Bundle()
                     bundle.putString("movieType","$type")
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_allMovieFragment,bundle)
                 }
+                else{
+                    findNavController().navigate(R.id.action_aboutMovieFragment_to_searchFragment)
+                }
             }
 
+
+
         }
+    }
+
+
+    override fun onDetach() {
+        super.onDetach()
     }
 
 
@@ -76,6 +88,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
 
         })
     }
+
 
     private fun setAboutMovie(id:Int) {
         binding.apply {

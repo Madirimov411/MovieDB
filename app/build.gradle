@@ -68,9 +68,11 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
 
     //animation
-
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //refresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 
 }

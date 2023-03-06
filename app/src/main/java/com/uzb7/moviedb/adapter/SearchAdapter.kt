@@ -22,7 +22,7 @@ class SearchAdapter(val list:ArrayList<Result>):RecyclerView.Adapter<SearchAdapt
     class SearchViewHolder(view: View): RecyclerView.ViewHolder(view){
         val image: ImageView =view.findViewById(R.id.ivMovieAll)
         val name: TextView =view.findViewById(R.id.tvMovieNameAll)
-        val detailMovie=view.findViewById<LinearLayout>(R.id.llAboutAll)
+        val detailMovie: LinearLayout =view.findViewById(R.id.llAboutAll)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {

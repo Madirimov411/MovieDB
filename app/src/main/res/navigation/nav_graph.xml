@@ -55,11 +55,21 @@
             android:name="type"
             app:argType="string"
             app:nullable="true"
-            android:defaultValue="home" />
+            android:defaultValue=" " />
+        <action
+            android:id="@+id/action_aboutMovieFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_aboutMovieFragment_self"
+            app:destination="@id/aboutMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.uzb7.moviedb.ui.fragment.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_aboutMovieFragment"
+            app:destination="@id/aboutMovieFragment" />
+    </fragment>
 </navigation>
