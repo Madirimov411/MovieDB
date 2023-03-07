@@ -35,7 +35,7 @@ class AllMovieAdapter(private val list: ArrayList<Result>):RecyclerView.Adapter<
     override fun onBindViewHolder(holder: AllMovieViewHolder, position: Int) {
         val allType=list[position]
         holder.apply {
-            Glide.with(image).load(CreateUrl.imageOpen(allType.poster_path)).into(image)
+            Glide.with(image).load(CreateUrl.imageOpen(allType.poster_path)).placeholder(R.drawable.loading).into(image)
             name.text=allType.original_title
             detailMovie.setOnClickListener{
                 detail?.invoke(allType.id)
