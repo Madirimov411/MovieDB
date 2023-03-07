@@ -12,31 +12,36 @@ import com.uzb7.moviedb.R
 import com.uzb7.moviedb.model.Result
 import com.uzb7.moviedb.utils.CreateUrl
 
-class SearchAdapter(val list:ArrayList<Result>):RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
-    var detail:((Int)->Unit)?=null
-    fun submitList(newList: ArrayList<Result>){
+class SearchAdapter(val list: ArrayList<Result>) :
+    RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
+    var detail: ((Int) -> Unit)? = null
+    fun submitList(newList: ArrayList<Result>) {
         list.addAll(newList)
         notifyDataSetChanged()
     }
 
-    class SearchViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val image: ImageView =view.findViewById(R.id.ivMovieAll)
-        val name: TextView =view.findViewById(R.id.tvMovieNameAll)
-        val detailMovie: LinearLayout =view.findViewById(R.id.llAboutAll)
+    class SearchViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val image: ImageView = view.findViewById(R.id.ivMovieAll)
+        val name: TextView = view.findViewById(R.id.tvMovieNameAll)
+        val detailMovie: LinearLayout = view.findViewById(R.id.llAboutAll)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
-        return SearchViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_all_type,parent,false))
+        return SearchViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_all_type, parent, false)
+        )
     }
 
     override fun getItemCount() = list.size
 
     override fun onBindViewHolder(holder: SearchViewHolder, position: Int) {
-        val allType=list[position]
+        val allType = list[position]
         holder.apply {
-            Glide.with(image).load(CreateUrl.imageOpen(allType.poster_path)).placeholder(R.drawable.loading).into(image)
-            name.text=allType.original_title
-            detailMovie.setOnClickListener{
+            if (allType.poster_path != null)
+                Glide.with(image).load(CreateUrl.imageOpen(allType.poster_path))
+                    .placeholder(R.drawable.loading).into(image)
+            name.text = allType.original_title
+            detailMovie.setOnClickListener {
                 detail?.invoke(allType.id)
             }
         }

@@ -272,7 +272,7 @@
                         android:id="@+id/rvTopBilledCast"/>
 
                     <TextView
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="55dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Similar movies"
@@ -290,8 +290,36 @@
                         android:id="@+id/rvSimilar"/>
 
 
+                    <LinearLayout
+                        android:id="@+id/llReview"
+                        android:layout_marginTop="35dp"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="20dp"
+                        android:background="@drawable/item_about_review"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/baseline_message_24"/>
+
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Read All Reviews"
+                            android:layout_marginStart="8dp"
+                            android:textSize="20sp"
+                            android:textColor="@color/white"/>
+
+                    </LinearLayout>
                 </LinearLayout>
+
+
 
 
 

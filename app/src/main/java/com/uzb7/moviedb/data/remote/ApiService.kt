@@ -24,7 +24,6 @@ interface ApiService {
 
     @GET("movie/{id}")
     fun getMovieById(@Path("id") id: Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911", @Query("append_to_response") append_to_response:String = "videos,images"):Call<AboutMovie>
-
     @GET("movie/{id}/similar")
     fun getSimilarMovie(@Path("id") id: Int, @Query("page") page: Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"):Call<Similar>
 
@@ -35,6 +34,6 @@ interface ApiService {
     @GET("movie/{id}/credits")
     fun getMovieComposition(@Path("id") id:Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"):Call<Actors>
 
-
-
+    @GET("movie/{id}/reviews")
+    fun getAllReview(@Path("id") id: Int, @Query("page") page: Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911")
 }

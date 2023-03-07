@@ -50,7 +50,8 @@
             app:destination="@id/allMovieFragment" />
         <argument
             android:name="which"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
         <argument
             android:name="type"
             app:argType="string"
@@ -62,6 +63,9 @@
         <action
             android:id="@+id/action_aboutMovieFragment_self"
             app:destination="@id/aboutMovieFragment" />
+        <action
+            android:id="@+id/action_aboutMovieFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
@@ -71,5 +75,20 @@
         <action
             android:id="@+id/action_searchFragment_to_aboutMovieFragment"
             app:destination="@id/aboutMovieFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="com.uzb7.moviedb.ui.fragment.ReviewFragment"
+        android:label="fragment_review"
+        tools:layout="@layout/fragment_review" >
+        <action
+            android:id="@+id/action_reviewFragment_to_aboutMovieFragment"
+            app:destination="@id/aboutMovieFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
 </navigation>

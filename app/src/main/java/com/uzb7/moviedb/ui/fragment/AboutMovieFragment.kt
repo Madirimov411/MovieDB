@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,6 +24,7 @@ import com.uzb7.moviedb.model.youtube_videos.AboutMovie
 import com.uzb7.moviedb.model.youtube_videos.Result
 import com.uzb7.moviedb.utils.CreateUrl
 import com.uzb7.moviedb.utils.Extension.hide
+import com.uzb7.moviedb.utils.Extension.show
 import com.uzb7.moviedb.utils.viewBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,29 +45,45 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
 
-
-
     private fun initViews() {
         val id = args.id
         val which = args.which
-        val type=args.type
+        val type = args.type
         binding.apply {
             loadMovie(id)
             ivBack.setOnClickListener {
                 if (which == 1) {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_homeFragment)
-                } else if(which==2) {
-                    var bundle=Bundle()
-                    bundle.putString("movieType","$type")
-                    findNavController().navigate(R.id.action_aboutMovieFragment_to_allMovieFragment,bundle)
-                }
-                else{
+                } else if (which == 2) {
+                    var bundle = Bundle()
+                    bundle.putString("movieType", "$type")
+                    findNavController().navigate(
+                        R.id.action_aboutMovieFragment_to_allMovieFragment,
+                        bundle
+                    )
+                } else {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_searchFragment)
                 }
             }
-
-
-
+            llReview.setOnClickListener{
+                val bundle=Bundle()
+                bundle.putInt("id",id)
+                findNavController().navigate(R.id.action_aboutMovieFragment_to_reviewFragment,bundle)
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(this@AboutMovieFragment) {
+                if (which == 1) {
+                    findNavController().navigate(R.id.action_aboutMovieFragment_to_homeFragment)
+                } else if (which == 2) {
+                    var bundle = Bundle()
+                    bundle.putString("movieType", "$type")
+                    findNavController().navigate(
+                        R.id.action_aboutMovieFragment_to_allMovieFragment,
+                        bundle
+                    )
+                } else {
+                    findNavController().navigate(R.id.action_aboutMovieFragment_to_searchFragment)
+                }
+            }
         }
     }
 
@@ -90,11 +108,11 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
 
-    private fun setAboutMovie(id:Int) {
+    private fun setAboutMovie(id: Int) {
         binding.apply {
             tvMovieNameAbout.text = aboutMovie.title
-            Glide.with(ivMovieAbout).load(CreateUrl.imageOpen(aboutMovie.poster_path))
-                .into(ivMovieAbout)
+            if (aboutMovie.poster_path != null) Glide.with(ivMovieAbout)
+                .load(CreateUrl.imageOpen(aboutMovie.poster_path)).into(ivMovieAbout)
             movieGenre.text = loadGenre()
             tvMovieRatio.text = aboutMovie.vote_average.toString().get(0)
                 .toString() + aboutMovie.vote_average.toString().get(1)
@@ -142,11 +160,11 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         }
     }
 
-    private fun loadMovieComposition(id:Int){
-        ApiClient.apiService.getMovieComposition(id).enqueue(object :Callback<Actors>{
+    private fun loadMovieComposition(id: Int) {
+        ApiClient.apiService.getMovieComposition(id).enqueue(object : Callback<Actors> {
             override fun onResponse(call: Call<Actors>, response: Response<Actors>) {
-                if (response.isSuccessful){
-                    listCast=response.body()!!.cast
+                if (response.isSuccessful) {
+                    listCast = response.body()!!.cast
                     loadCast()
                 }
             }
@@ -158,10 +176,11 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
     private fun loadCast() {
-        binding.apply{
+        binding.apply {
             val adapter = TopCastAdapter(listCast)
-            rvTopBilledCast.adapter=adapter
-            rvTopBilledCast.layoutManager=LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+            rvTopBilledCast.adapter = adapter
+            rvTopBilledCast.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
     }
 
@@ -169,7 +188,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         binding.apply {
             list = aboutMovie.videos.results
 
-            if (list != null) {
+            if (list.size != 0) {
                 tvNoTrailers.hide()
                 val adapter = DetailMovieAdapter(list)
                 rvTrailer.adapter = adapter
@@ -182,6 +201,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                 }
             } else {
                 rvTrailer.hide()
+                tvNoTrailers.show()
             }
 
         }
@@ -207,17 +227,15 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
 
     private fun loadGenre(): String {
         var s = ""
+        var a = ""
         s += aboutMovie.release_date.split("-")[0] + ", "
         for (i in 0 until aboutMovie.production_countries.size) {
             s += aboutMovie.production_countries[i].iso_3166_1 + ", "
         }
         for (i in 0 until aboutMovie.genres.size) {
-            if (i == aboutMovie.genres.size - 1) {
-                s += aboutMovie.genres[i].name
-            } else {
-                s += aboutMovie.genres[i].name + ", "
-            }
+            s += aboutMovie.genres[i].name + ", "
         }
-        return s
+        for (i in 0 until s.length - 2) a += s[i]
+        return a
     }
 }

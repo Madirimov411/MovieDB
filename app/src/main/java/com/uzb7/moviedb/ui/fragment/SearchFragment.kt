@@ -1,11 +1,14 @@
 package com.uzb7.moviedb.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.text.TextWatcher
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,7 +30,7 @@ import retrofit2.Response
 
 
 class SearchFragment : Fragment(R.layout.fragment_search) {
-    private var pages = 0
+    private var pages = 1
     var list = ArrayList<com.uzb7.moviedb.model.Result>()
     lateinit var adapter: SearchAdapter
     private val binding by viewBinding { FragmentSearchBinding.bind(it) }
@@ -38,39 +41,48 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun initViews() {
         binding.apply {
-            val manager = GridLayoutManager(requireContext(), 2)
-            etSearch.addTextChangedListener {
-                try {
-                    loadSearch(etSearch.text.toString())
-                    adapter = SearchAdapter(list)
-                    rvSearch.adapter = adapter
-                    rvSearch.layoutManager = manager
-                    adapter.detail = {
-                        val bundle = Bundle()
-                        bundle.putInt("id", it)
-                        bundle.putInt("which", 3)
-                        findNavController().navigate(
-                            R.id.action_searchFragment_to_aboutMovieFragment,
-                            bundle
-                        )
-                    }
-                    val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
-                        override fun onLoadMore(
-                            page: Int,
-                            totalItemsCount: Int,
-                            view: RecyclerView?
-                        ) {
-                            loadSearch(etSearch.text.toString())
-                        }
-                    }
-                    rvSearch.addOnScrollListener(scrollListener)
-                } finally {
 
-                }
-
+            ivRemoveSearch.setOnClickListener {
+                etSearch.text.clear()
             }
-            ivBack.setOnClickListener {
+            val manager = GridLayoutManager(requireContext(), 2)
+            adapter = SearchAdapter(list)
+            rvSearch.adapter = adapter
+            rvSearch.layoutManager = manager
+            adapter.detail = {
+                val bundle = Bundle()
+                bundle.putInt("id", it)
+                bundle.putInt("which", 3)
+                findNavController().navigate(
+                    R.id.action_searchFragment_to_aboutMovieFragment,
+                    bundle
+                )
+            }
 
+            val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
+                override fun onLoadMore(
+                    page: Int,
+                    totalItemsCount: Int,
+                    view: RecyclerView?
+                ) {
+                    loadSearch(etSearch.text.toString(),getPage(pages))
+                }
+            }
+            rvSearch.addOnScrollListener(scrollListener)
+            etSearch.setOnKeyListener { v, keyCode, event ->
+                if (event.action==KeyEvent.ACTION_DOWN&&keyCode==KeyEvent.KEYCODE_ENTER){
+                    hideKeyboard()
+                    loadSearch(etSearch.text.toString(),1)
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+//            etSearch.addTextChangedListener {
+//                val text=it.toString()
+//                if (text.length>=3) loadSearch(text)
+//            }
+            ivBack.setOnClickListener {
+                findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
             }
 
         }
@@ -80,12 +92,12 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onResume()
     }
 
-    private fun loadSearch(s: String) {
+    private fun loadSearch(s: String,page: Int) {
         binding.animationView.show()
-        ApiClient.apiService.getSearch(s, getPage(pages)).enqueue(object : Callback<Popular> {
+        ApiClient.apiService.getSearch(s, page).enqueue(object : Callback<Popular> {
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                 if (response.isSuccessful) {
-                    list = response.body()!!.results
+                    list=response.body()!!.results
                     adapter.submitList(list)
                     binding.animationView.hide()
                 }
@@ -102,6 +114,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun getPage(page: Int): Int {
         pages = page + 1
         return pages
+    }
+
+    private fun hideKeyboard(){
+        val hide=requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        hide.hideSoftInputFromWindow(requireView().windowToken,0)
     }
 
 
