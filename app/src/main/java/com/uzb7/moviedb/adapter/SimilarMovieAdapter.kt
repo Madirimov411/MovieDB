@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.uzb7.moviedb.R
 import com.uzb7.moviedb.utils.CreateUrl
+import com.uzb7.moviedb.utils.Extension.hide
 
 class SimilarMovieAdapter(val list: ArrayList<com.uzb7.moviedb.model.similar_movie.Result>):RecyclerView.Adapter<SimilarMovieAdapter.SimilarMovieViewHolder>() {
 
@@ -30,7 +31,8 @@ class SimilarMovieAdapter(val list: ArrayList<com.uzb7.moviedb.model.similar_mov
     override fun onBindViewHolder(holder: SimilarMovieViewHolder, position: Int) {
         val similar=list[position]
         holder.apply {
-            Glide.with(image).load(CreateUrl.imageOpen(similar.poster_path)).into(image)
+            if(similar.poster_path==null) image.hide()
+             else Glide.with(image).load(CreateUrl.imageOpen(similar.poster_path)).into(image)
             name.text=similar.title
             detail.setOnClickListener {
                 about?.invoke(similar.id)

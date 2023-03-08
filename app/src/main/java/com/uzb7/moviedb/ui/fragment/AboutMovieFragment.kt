@@ -1,5 +1,6 @@
 package com.uzb7.moviedb.ui.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -31,7 +32,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
+class AboutMovieFragment : Fragment(R.layout.fragment_about_movie){
     lateinit var aboutMovie: AboutMovie
     lateinit var list: ArrayList<Result>
     lateinit var listSimilar: ArrayList<com.uzb7.moviedb.model.similar_movie.Result>
@@ -44,6 +45,10 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         initViews()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
 
     private fun initViews() {
         val id = args.id
@@ -52,6 +57,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         binding.apply {
             loadMovie(id)
             ivBack.setOnClickListener {
+                //requireActivity().onBackPressed()
                 if (which == 1) {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_homeFragment)
                 } else if (which == 2) {
@@ -61,13 +67,14 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                         R.id.action_aboutMovieFragment_to_allMovieFragment,
                         bundle
                     )
-                } else {
+                } else if(which==3) {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_searchFragment)
                 }
             }
             llReview.setOnClickListener{
                 val bundle=Bundle()
                 bundle.putInt("id",id)
+                bundle.putInt("which",which)
                 findNavController().navigate(R.id.action_aboutMovieFragment_to_reviewFragment,bundle)
             }
             requireActivity().onBackPressedDispatcher.addCallback(this@AboutMovieFragment) {
@@ -80,7 +87,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                         R.id.action_aboutMovieFragment_to_allMovieFragment,
                         bundle
                     )
-                } else {
+                } else if (which==3) {
                     findNavController().navigate(R.id.action_aboutMovieFragment_to_searchFragment)
                 }
             }
@@ -88,9 +95,6 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
 
-    override fun onDetach() {
-        super.onDetach()
-    }
 
 
     private fun loadMovie(id: Int) {
@@ -108,15 +112,17 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private fun setAboutMovie(id: Int) {
         binding.apply {
             tvMovieNameAbout.text = aboutMovie.title
-            if (aboutMovie.poster_path != null) Glide.with(ivMovieAbout)
+            if (aboutMovie.poster_path == null) ivMovieAbout.hide()
+            else Glide.with(ivMovieAbout)
                 .load(CreateUrl.imageOpen(aboutMovie.poster_path)).into(ivMovieAbout)
             movieGenre.text = loadGenre()
-            tvMovieRatio.text = aboutMovie.vote_average.toString().get(0)
-                .toString() + aboutMovie.vote_average.toString().get(1)
-                .toString() + aboutMovie.vote_average.toString().get(2).toString()
+            tvMovieRatio.text = aboutMovie.vote_average.toString()[0]
+                .toString() + aboutMovie.vote_average.toString()[1]
+                .toString() + aboutMovie.vote_average.toString()[2].toString()
             tvMovieLanguage.text = aboutMovie.original_language.uppercase()
             tvMovieStatus.text = aboutMovie.status
             tvMovieRevenu.text = loadRevenu(aboutMovie.revenue)
@@ -159,6 +165,8 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
             }
         }
     }
+
+
 
     private fun loadMovieComposition(id: Int) {
         ApiClient.apiService.getMovieComposition(id).enqueue(object : Callback<Actors> {

@@ -2,6 +2,7 @@ package com.uzb7.moviedb.data.remote
 
 import com.uzb7.moviedb.model.Popular
 import com.uzb7.moviedb.model.actors.Actors
+import com.uzb7.moviedb.model.review.Review
 import com.uzb7.moviedb.model.similar_movie.Similar
 import com.uzb7.moviedb.model.youtube_videos.AboutMovie
 import retrofit2.Call
@@ -35,5 +36,5 @@ interface ApiService {
     fun getMovieComposition(@Path("id") id:Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"):Call<Actors>
 
     @GET("movie/{id}/reviews")
-    fun getAllReview(@Path("id") id: Int, @Query("page") page: Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911")
+    fun getAllReview(@Path("id") id: Int, @Query("page") page: Int, @Query("api_key") api_key: String = "99b4808386d0dc2136f0e6efe977a911"):Call<Review>
 }

@@ -90,5 +90,8 @@
         <argument
             android:name="id"
             app:argType="integer" />
+        <argument
+            android:name="which"
+            app:argType="integer" />
     </fragment>
 </navigation>
