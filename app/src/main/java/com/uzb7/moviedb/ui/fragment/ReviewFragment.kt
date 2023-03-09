@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -33,7 +34,7 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
 
     private fun initViews() {
         val id=args.id
-
+        val which=args.which
         binding.apply {
             loadReview(id)
             adapter= ReviewAdapter(list)
@@ -43,6 +44,13 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
                 //requireActivity().onBackPressed()
                 val bundle=Bundle()
                 bundle.putInt("id",id)
+                bundle.putInt("which",which)
+                findNavController().navigate(R.id.action_reviewFragment_to_aboutMovieFragment,bundle)
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(this@ReviewFragment){
+                val bundle=Bundle()
+                bundle.putInt("id",id)
+                bundle.putInt("which",which)
                 findNavController().navigate(R.id.action_reviewFragment_to_aboutMovieFragment,bundle)
             }
         }
@@ -51,8 +59,10 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
     private fun loadReview(id:Int) {
         ApiClient.apiService.getAllReview(id,1).enqueue(object :Callback<Review>{
             override fun onResponse(call: Call<Review>, response: Response<Review>) {
-                list=response.body()!!.results
-                adapter.submitList(list)
+                if(response.isSuccessful){
+                    list = response.body()!!.results
+                    adapter.submitList(list)
+                }
             }
 
             override fun onFailure(call: Call<Review>, t: Throwable) {

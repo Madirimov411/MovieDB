@@ -9,7 +9,7 @@ object ApiClient {
 
     val isTester = true
     val SERVER_DEVELOPMENT = "https://api.themoviedb.org/3/"
-    val SERVER_PRODUCTION = "https://api.themoviedb.org/3/m"
+    val SERVER_PRODUCTION = "https://api.themoviedb.org/3/"
 
     fun baseURL(): String {
         if (isTester) return SERVER_DEVELOPMENT

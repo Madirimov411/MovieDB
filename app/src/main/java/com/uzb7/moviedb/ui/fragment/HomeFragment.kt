@@ -43,58 +43,73 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun initViews() {
         binding.apply {
-
-
-
             if (isInternetAviable()) {
-                tvNoInternet.hide()
-                loadPopular()
-                loadTopRated()
-                loadUpcoming()
-                loadNowPlaying()
-                rvPopularRefresh(listPopular)
-                rvTopRatedRefresh(listTopRated)
-                rvUpcomingRefresh(listUpcoming)
-                rvNowPlayingRefresh(listNowPlaying)
-
-                ivSearch.setOnClickListener {
-                    findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
-                }
-
-                tvPopularAll.setOnClickListener {
-                    val bundle = Bundle()
-                    val type = "popular"
-                    bundle.putString("movieType", type)
-                    findNavController().navigate(
-                        R.id.action_homeFragment_to_allMovieFragment,
-                        bundle
-                    )
-                }
-                tvTopAll.setOnClickListener {
-                    val bundle = Bundle()
-                    val type = "top_rated"
-                    bundle.putString("movieType", type)
-                    findNavController().navigate(
-                        R.id.action_homeFragment_to_allMovieFragment,
-                        bundle
-                    )
-
-                }
-                tvUpcomingAll.setOnClickListener {
-                    val bundle = Bundle()
-                    val type = "upcoming"
-                    bundle.putString("movieType", type)
-                    findNavController().navigate(
-                        R.id.action_homeFragment_to_allMovieFragment,
-                        bundle
-                    )
-                }
-            }
-            else{
+                putFragment()
+            } else {
                 llHome.hide()
                 tvNoInternet.show()
+
+            }
+            refreshLayout.setOnRefreshListener {
+                refreshLayout.isRefreshing = false
+                if (isInternetAviable()) {
+                    putFragment()
+                } else {
+                    llHome.hide()
+                    animationView.show()
+                    tvNoInternet.show()
+
+                }
+            }
+        }
+    }
+
+    private fun putFragment() {
+        binding.apply {
+            animationView.hide()
+            tvNoInternet.hide()
+            llHome.show()
+            loadPopular()
+            loadTopRated()
+            loadUpcoming()
+            loadNowPlaying()
+            rvPopularRefresh(listPopular)
+            rvTopRatedRefresh(listTopRated)
+            rvUpcomingRefresh(listUpcoming)
+            rvNowPlayingRefresh(listNowPlaying)
+
+            ivSearch.setOnClickListener {
+                findNavController().navigate(R.id.action_homeFragment_to_searchFragment)
             }
 
+            tvPopularAll.setOnClickListener {
+                val bundle = Bundle()
+                val type = "popular"
+                bundle.putString("movieType", type)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_allMovieFragment,
+                    bundle
+                )
+            }
+            tvTopAll.setOnClickListener {
+                val bundle = Bundle()
+                val type = "top_rated"
+                bundle.putString("movieType", type)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_allMovieFragment,
+                    bundle
+                )
+
+            }
+            tvUpcomingAll.setOnClickListener {
+                val bundle = Bundle()
+                val type = "upcoming"
+                bundle.putString("movieType", type)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_allMovieFragment,
+                    bundle
+                )
+            }
         }
     }
 
@@ -105,10 +120,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvUpcoming.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapterUpcoming.detail = {
-                val bundle = Bundle()
-                bundle.putInt("id", it)
-                bundle.putInt("which", 1)
-                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment, bundle)
+                if (isInternetAviable()) {
+                    val bundle = Bundle()
+                    bundle.putInt("id", it)
+                    bundle.putInt("which", 1)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_aboutMovieFragment,
+                        bundle
+                    )
+                } else {
+                    llHome.hide()
+                    animationView.show()
+                    tvNoInternet.show()
+
+                }
             }
         }
     }
@@ -120,10 +145,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvTopRated.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapterTopRated.detail = {
-                val bundle = Bundle()
-                bundle.putInt("id", it)
-                bundle.putInt("which", 1)
-                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment, bundle)
+                if (isInternetAviable()) {
+                    val bundle = Bundle()
+                    bundle.putInt("id", it)
+                    bundle.putInt("which", 1)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_aboutMovieFragment,
+                        bundle
+                    )
+                } else {
+                    llHome.hide()
+                    animationView.show()
+                    tvNoInternet.show()
+
+                }
             }
         }
     }
@@ -135,10 +170,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             rvPopular.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapterPopular.detail = {
-                val bundle = Bundle()
-                bundle.putInt("id", it)
-                bundle.putInt("which", 1)
-                findNavController().navigate(R.id.action_homeFragment_to_aboutMovieFragment, bundle)
+                if (isInternetAviable()) {
+                    val bundle = Bundle()
+                    bundle.putInt("id", it)
+                    bundle.putInt("which", 1)
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_aboutMovieFragment,
+                        bundle
+                    )
+                } else {
+                    llHome.hide()
+                    animationView.show()
+                    tvNoInternet.show()
+
+                }
             }
         }
     }

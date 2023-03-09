@@ -3,6 +3,7 @@ package com.uzb7.moviedb.ui.fragment
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -40,6 +41,9 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
         binding.apply {
             val manager = GridLayoutManager(requireContext(), 2)
             ivBack.setOnClickListener {
+                findNavController().navigate(R.id.action_allMovieFragment_to_homeFragment)
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(this@AllMovieFragment){
                 findNavController().navigate(R.id.action_allMovieFragment_to_homeFragment)
             }
             if (movieType == "popular") {

@@ -1,6 +1,7 @@
 package com.uzb7.moviedb.ui.fragment
 
 import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.addCallback
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -71,8 +73,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             rvSearch.addOnScrollListener(scrollListener)
             etSearch.setOnKeyListener { v, keyCode, event ->
                 if (event.action==KeyEvent.ACTION_DOWN&&keyCode==KeyEvent.KEYCODE_ENTER){
-                    hideKeyboard()
-                    loadSearch(etSearch.text.toString(),1)
+                    if(isInternetAviable()){
+                        frameSearch.show()
+                        animationViewNoInternet.hide()
+                        tvNoInternet.hide()
+                        hideKeyboard()
+                        loadSearch(etSearch.text.toString(), 1)
+                    }
+                    else{
+                        animationViewNoInternet.show()
+                        tvNoInternet.show()
+                        frameSearch.hide()
+                    }
                     return@setOnKeyListener true
                 }
                 return@setOnKeyListener false
@@ -82,6 +94,9 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 //                if (text.length>=3) loadSearch(text)
 //            }
             ivBack.setOnClickListener {
+                findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(this@SearchFragment){
                 findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
             }
 
@@ -121,5 +136,11 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         hide.hideSoftInputFromWindow(requireView().windowToken,0)
     }
 
+    private fun isInternetAviable(): Boolean {
+        val manager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val infoMobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
+        val infoWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+        return infoMobile!!.isConnected || infoWifi!!.isConnected
+    }
 
 }
