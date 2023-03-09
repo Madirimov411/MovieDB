@@ -24,9 +24,9 @@ class PopularAdapter(val list: ArrayList<com.uzb7.moviedb.model.Result>) :
     }
 
     class PopularViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val movieImage = view.findViewById<ImageView>(R.id.ivMovieHome)
-        val movieName = view.findViewById<TextView>(R.id.tvMovieNameHome)
-        val detailmovie = view.findViewById<LinearLayout>(R.id.llDetail)
+        val movieImage: ImageView = view.findViewById(R.id.ivMovieHome)
+        val movieName: TextView = view.findViewById(R.id.tvMovieNameHome)
+        val detailmovie: LinearLayout = view.findViewById(R.id.llDetail)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {

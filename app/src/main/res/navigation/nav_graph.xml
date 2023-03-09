@@ -61,9 +61,6 @@
             android:id="@+id/action_aboutMovieFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
         <action
-            android:id="@+id/action_aboutMovieFragment_self"
-            app:destination="@id/aboutMovieFragment" />
-        <action
             android:id="@+id/action_aboutMovieFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
     </fragment>
