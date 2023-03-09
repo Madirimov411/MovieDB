@@ -2,4 +2,14 @@
     <string name="app_name">MovieDB</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="popular">Popular</string>
+    <string name="top_rated">Top rated</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="all">All</string>
+    <string name="search_movie">Search Movie    </string>
+    <string name="search">Search</string>
+    <string name="reviews">Reviews</string>
+    <string name="no_review">No Review</string>
 </resources>

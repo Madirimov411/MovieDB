@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Home"
+                    android:text="@string/home"
                     android:textColor="@color/white"
                     android:textSize="22sp"
                     android:textStyle="bold"/>
@@ -90,20 +90,20 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Popular"
+                                    android:text="@string/popular"
                                     android:textColor="@color/white"
                                     android:textSize="20sp"
-                                    android:textStyle="bold"/>
-
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="All"
+                                    android:text="@string/all"
                                     android:id="@+id/tvPopularAll"
                                     android:textColor="@color/black"
                                     android:textSize="18sp"
@@ -129,7 +129,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Top rated"
+                                    android:text="@string/top_rated"
                                     android:textColor="@color/white"
                                     android:textSize="20sp"
                                     android:textStyle="bold"/>
@@ -139,7 +139,7 @@
                                     android:id="@+id/tvTopAll"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="All"
+                                    android:text="@string/all"
                                     android:textSize="18sp"
                                     android:textColor="@color/black"
                                     android:background="@drawable/all_background"
@@ -158,7 +158,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Now Playing"
+                                android:text="@string/now_playing"
                                 android:textColor="@color/white"
                                 android:textStyle="bold"
                                 android:textSize="21sp"
@@ -182,7 +182,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="Upcoming"
+                                    android:text="@string/upcoming"
                                     android:textColor="@color/white"
                                     android:textSize="20sp"
                                     android:textStyle="bold"/>
@@ -191,7 +191,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="All"
+                                    android:text="@string/all"
                                     android:id="@+id/tvUpcomingAll"
                                     android:textColor="@color/black"
                                     android:textSize="18sp"

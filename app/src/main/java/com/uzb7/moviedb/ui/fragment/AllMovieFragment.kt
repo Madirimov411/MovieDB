@@ -1,5 +1,6 @@
 package com.uzb7.moviedb.ui.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -60,11 +61,12 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private fun rvUpcomingRefresh() {
         val manager = GridLayoutManager(requireContext(), 2)
         binding.apply{
             loadUpcoming()
-            tvMovieType.text = "Upcoming"
+            tvMovieType.text = "@string/upcoming"
             adapterMovieType = AllMovieAdapter(listAllType)
             rvAllMovieType.adapter = adapterMovieType
             rvAllMovieType.layoutManager = manager
@@ -87,6 +89,7 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun rvTopRatedRefresh() {
         val manager = GridLayoutManager(requireContext(), 2)
         binding.apply {
@@ -111,6 +114,7 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun rvPopularRefresh() {
         val manager = GridLayoutManager(requireContext(), 2)
         binding.apply {

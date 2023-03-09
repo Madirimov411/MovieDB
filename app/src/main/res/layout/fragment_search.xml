@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Search Movie     "
+                    android:text="@string/search_movie"
                     android:textColor="@color/white"
                     android:gravity="center"
                     android:textSize="22sp"
@@ -72,7 +72,7 @@
                 android:id="@+id/etSearch"
                 android:inputType="textNoSuggestions"
                 android:singleLine="true"
-                android:hint="Search"
+                android:hint="@string/search"
                 android:background="@null"
                 android:textColorHint="#9F9C9C"
                 android:textColor="@color/white"/>

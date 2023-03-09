@@ -15,6 +15,8 @@ import com.uzb7.moviedb.adapter.ReviewAdapter
 import com.uzb7.moviedb.data.remote.ApiClient
 import com.uzb7.moviedb.databinding.FragmentReviewBinding
 import com.uzb7.moviedb.model.review.Review
+import com.uzb7.moviedb.utils.Extension.hide
+import com.uzb7.moviedb.utils.Extension.show
 import com.uzb7.moviedb.utils.viewBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,12 +63,26 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
             override fun onResponse(call: Call<Review>, response: Response<Review>) {
                 if(response.isSuccessful){
                     list = response.body()!!.results
-                    adapter.submitList(list)
+                    if(list!=null) {
+                        binding.tvNoReview.hide()
+                        binding.rvReview.show()
+                        adapter.submitList(list)
+                    }
+                    else{
+                        noReview()
+                    }
                 }
             }
             override fun onFailure(call: Call<Review>, t: Throwable) {
             }
         })
+    }
+
+    private fun noReview() {
+        binding.apply {
+            rvReview.hide()
+            tvNoReview.show()
+        }
     }
 
 }

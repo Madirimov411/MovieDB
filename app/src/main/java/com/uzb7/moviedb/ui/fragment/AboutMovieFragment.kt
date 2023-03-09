@@ -187,6 +187,8 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     private fun loadSimilarRV() {
         binding.apply {
             if (listSimilar != null) {
+                rvSimilar.show()
+                tvNoSimilar.hide()
                 val adapter = SimilarMovieAdapter(listSimilar)
                 rvSimilar.adapter = adapter
                 rvSimilar.layoutManager =
@@ -195,6 +197,10 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                     myId = it
                     loadMovie(myId)
                 }
+            }
+            else{
+                rvSimilar.hide()
+                tvNoSimilar.show()
             }
         }
     }

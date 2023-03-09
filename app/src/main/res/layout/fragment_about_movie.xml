@@ -312,14 +312,34 @@
                                 android:textSize="17sp"
                                 android:textStyle="bold"/>
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:layout_marginTop="10dp"
+
+                            <FrameLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="180dp"
-                                android:orientation="horizontal"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                tools:listitem="@layout/item_similer_movies"
-                                android:id="@+id/rvSimilar"/>
+                                android:layout_height="225dp">
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:layout_marginTop="10dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:orientation="horizontal"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                    tools:listitem="@layout/item_similer_movies"
+                                    android:id="@+id/rvSimilar"/>
+
+                                <TextView
+                                    android:visibility="gone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/about_movie"
+                                    android:gravity="center"
+                                    android:text="No similar movie"
+                                    android:textColor="@color/white"
+                                    android:textSize="15dp"
+                                    android:id="@+id/tvNoSimilar"/>
+
+
+                            </FrameLayout>
+
 
 
                             <LinearLayout
