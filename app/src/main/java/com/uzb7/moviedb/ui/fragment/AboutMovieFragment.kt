@@ -84,6 +84,9 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         val which = args.which
         val type = args.type
         binding.apply {
+            animationViewNoInternet.hide()
+            tvNoInternet.hide()
+            frameAbout.show()
             loadMovie(myId)
             ivBack.setOnClickListener {
                 //requireActivity().onBackPressed()
