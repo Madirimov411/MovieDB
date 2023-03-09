@@ -39,7 +39,6 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
     private fun initViews() {
         val movieType = args.movieType
         binding.apply {
-            val manager = GridLayoutManager(requireContext(), 2)
             ivBack.setOnClickListener {
                 findNavController().navigate(R.id.action_allMovieFragment_to_homeFragment)
             }
@@ -47,66 +46,93 @@ class AllMovieFragment : Fragment(R.layout.fragment_all_movie) {
                 findNavController().navigate(R.id.action_allMovieFragment_to_homeFragment)
             }
             if (movieType == "popular") {
-                tvMovieType.text="Popular"
-                loadPopular()
-                adapterMovieType = AllMovieAdapter(listAllType)
-                rvAllMovieType.adapter = adapterMovieType
-                rvAllMovieType.layoutManager = manager
-                adapterMovieType.detail={
-                    val bundle=Bundle()
-                    bundle.putInt("id",it)
-                    bundle.putInt("which",2)
-                    bundle.putString("type","popular")
-                    findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
-                }
-                val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
-                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                        loadPopular()
-                    }
-                }
-                rvAllMovieType.addOnScrollListener(scrollListener)
+                rvPopularRefresh()
+
             } else if (movieType == "top_rated") {
-                loadTopRated()
-                tvMovieType.text="Top Rated"
-                adapterMovieType = AllMovieAdapter(listAllType)
-                rvAllMovieType.adapter = adapterMovieType
-                rvAllMovieType.layoutManager = manager
-                adapterMovieType.detail={
-                    val bundle=Bundle()
-                    bundle.putInt("id",it)
-                    bundle.putInt("which",2)
-                    bundle.putString("type","top_rated")
-                    findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
-                }
-                val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
-                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                        loadTopRated()
-                    }
-                }
-                rvAllMovieType.addOnScrollListener(scrollListener)
+                rvTopRatedRefresh()
+
 
             } else if (movieType == "upcoming") {
-                tvMovieType.text="Upcoming"
-                loadUpcoming()
-                adapterMovieType = AllMovieAdapter(listAllType)
-                rvAllMovieType.adapter = adapterMovieType
-                rvAllMovieType.layoutManager = manager
-                adapterMovieType.detail={
-                    val bundle=Bundle()
-                    bundle.putInt("id",it)
-                    bundle.putInt("which",2)
-                    bundle.putString("type","upcoming")
-                    findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
-                }
-                val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
-                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                        loadUpcoming()
-                    }
-                }
-                rvAllMovieType.addOnScrollListener(scrollListener)
+                rvUpcomingRefresh()
+
             }
         }
 
+    }
+
+    private fun rvUpcomingRefresh() {
+        val manager = GridLayoutManager(requireContext(), 2)
+        binding.apply{
+            loadUpcoming()
+            tvMovieType.text = "Upcoming"
+            adapterMovieType = AllMovieAdapter(listAllType)
+            rvAllMovieType.adapter = adapterMovieType
+            rvAllMovieType.layoutManager = manager
+            adapterMovieType.detail = {
+                val bundle = Bundle()
+                bundle.putInt("id", it)
+                bundle.putInt("which", 2)
+                bundle.putString("type", "upcoming")
+                findNavController().navigate(
+                    R.id.action_allMovieFragment_to_aboutMovieFragment,
+                    bundle
+                )
+            }
+            val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    loadUpcoming()
+                }
+            }
+            rvAllMovieType.addOnScrollListener(scrollListener)
+        }
+    }
+
+    private fun rvTopRatedRefresh() {
+        val manager = GridLayoutManager(requireContext(), 2)
+        binding.apply {
+            loadTopRated()
+            tvMovieType.text="Top Rated"
+            adapterMovieType = AllMovieAdapter(listAllType)
+            rvAllMovieType.adapter = adapterMovieType
+            rvAllMovieType.layoutManager = manager
+            adapterMovieType.detail={
+                val bundle=Bundle()
+                bundle.putInt("id",it)
+                bundle.putInt("which",2)
+                bundle.putString("type","top_rated")
+                findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
+            }
+            val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    loadTopRated()
+                }
+            }
+            rvAllMovieType.addOnScrollListener(scrollListener)
+        }
+    }
+
+    private fun rvPopularRefresh() {
+        val manager = GridLayoutManager(requireContext(), 2)
+        binding.apply {
+            loadPopular()
+            tvMovieType.text="Popular"
+            adapterMovieType = AllMovieAdapter(listAllType)
+            rvAllMovieType.adapter = adapterMovieType
+            rvAllMovieType.layoutManager = manager
+            adapterMovieType.detail={
+                val bundle=Bundle()
+                bundle.putInt("id",it)
+                bundle.putInt("which",2)
+                bundle.putString("type","popular")
+                findNavController().navigate(R.id.action_allMovieFragment_to_aboutMovieFragment,bundle)
+            }
+            val scrollListener = object : EndlessRecyclerViewScrollListener(manager) {
+                override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                    loadPopular()
+                }
+            }
+            rvAllMovieType.addOnScrollListener(scrollListener)
+        }
     }
 
     private fun loadPopular() {

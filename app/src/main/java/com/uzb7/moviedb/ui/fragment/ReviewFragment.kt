@@ -64,11 +64,8 @@ class ReviewFragment : Fragment(R.layout.fragment_review) {
                     adapter.submitList(list)
                 }
             }
-
             override fun onFailure(call: Call<Review>, t: Throwable) {
-
             }
-
         })
     }
 

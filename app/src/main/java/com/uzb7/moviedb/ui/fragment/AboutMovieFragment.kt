@@ -37,7 +37,7 @@ import retrofit2.Response
 class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     lateinit var aboutMovie: AboutMovie
     lateinit var list: ArrayList<Result>
-    var myId: Int=0
+    var myId: Int = 0
     lateinit var listSimilar: ArrayList<com.uzb7.moviedb.model.similar_movie.Result>
     lateinit var listCast: ArrayList<Cast>
     private val binding by viewBinding { FragmentAboutMovieBinding.bind(it) }
@@ -48,16 +48,12 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         initViews()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     private fun initViews() {
         binding.apply {
-            if(isInternetAviable()){
+            if (isInternetAviable()) {
                 putAbout()
-            }
-            else{
+            } else {
                 frameAbout.hide()
                 animationViewLoading.hide()
                 animationViewNoInternet.show()
@@ -72,14 +68,12 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                     animationViewLoading.hide()
                     animationViewNoInternet.show()
                     tvNoInternet.show()
-
                 }
             }
-
         }
     }
 
-    private fun putAbout(){
+    private fun putAbout() {
         myId = args.id
         val which = args.which
         val type = args.type
@@ -135,20 +129,20 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         binding.llAboutLinear.hide()
         ApiClient.apiService.getMovieById(id).enqueue(object : Callback<AboutMovie> {
             override fun onResponse(call: Call<AboutMovie>, response: Response<AboutMovie>) {
-                if(response.isSuccessful){
+                if (response.isSuccessful) {
                     aboutMovie = response.body()!!
                     setAboutMovie(id)
                     binding.animationViewLoading.hide()
                     binding.llAboutLinear.show()
                 }
             }
+
             override fun onFailure(call: Call<AboutMovie>, t: Throwable) {
 
             }
 
         })
     }
-
 
     @SuppressLint("SetTextI18n")
     private fun setAboutMovie(id: Int) {
@@ -198,7 +192,7 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
                 rvSimilar.layoutManager =
                     LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
                 adapter.about = {
-                    myId=it
+                    myId = it
                     loadMovie(myId)
                 }
             }
@@ -253,7 +247,6 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
         }
     }
 
-
     private fun loadRevenu(revenue: Int): String {
         var s = ""
         var a = ""
@@ -286,7 +279,8 @@ class AboutMovieFragment : Fragment(R.layout.fragment_about_movie) {
     }
 
     private fun isInternetAviable(): Boolean {
-        val manager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager =
+            activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val infoMobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
         val infoWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         return infoMobile!!.isConnected || infoWifi!!.isConnected

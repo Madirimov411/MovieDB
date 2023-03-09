@@ -48,7 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             } else {
                 llHome.hide()
                 tvNoInternet.show()
-
             }
             refreshLayout.setOnRefreshListener {
                 refreshLayout.isRefreshing = false
@@ -58,7 +57,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     llHome.hide()
                     animationView.show()
                     tvNoInternet.show()
-
                 }
             }
         }

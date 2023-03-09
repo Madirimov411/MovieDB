@@ -44,9 +44,41 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private fun initViews() {
         binding.apply {
 
-            ivRemoveSearch.setOnClickListener {
-                etSearch.text.clear()
+            ivRemoveSearch.setOnClickListener { etSearch.text.clear() }
+
+            etSearch.setOnKeyListener { _, keyCode, event ->
+                if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    if (isInternetAviable()) {
+                        frameSearch.show()
+                        animationViewNoInternet.hide()
+                        tvNoInternet.hide()
+                        hideKeyboard()
+                        loadSearch(etSearch.text.toString(), 1)
+                    } else {
+                        animationViewNoInternet.show()
+                        tvNoInternet.show()
+                        frameSearch.hide()
+                    }
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
             }
+//            etSearch.addTextChangedListener {
+//                val text=it.toString()
+//                if (text.length>=3) loadSearch(text)
+//            }
+            ivBack.setOnClickListener {
+                findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
+            }
+            requireActivity().onBackPressedDispatcher.addCallback(this@SearchFragment) {
+                findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
+            }
+
+        }
+    }
+
+    private fun filRvSearch(){
+        binding.apply {
             val manager = GridLayoutManager(requireContext(), 2)
             adapter = SearchAdapter(list)
             rvSearch.adapter = adapter
@@ -67,52 +99,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     totalItemsCount: Int,
                     view: RecyclerView?
                 ) {
-                    loadSearch(etSearch.text.toString(),getPage(pages))
+                    loadSearch(etSearch.text.toString(), getPage(pages))
                 }
             }
             rvSearch.addOnScrollListener(scrollListener)
-            etSearch.setOnKeyListener { v, keyCode, event ->
-                if (event.action==KeyEvent.ACTION_DOWN&&keyCode==KeyEvent.KEYCODE_ENTER){
-                    if(isInternetAviable()){
-                        frameSearch.show()
-                        animationViewNoInternet.hide()
-                        tvNoInternet.hide()
-                        hideKeyboard()
-                        loadSearch(etSearch.text.toString(), 1)
-                    }
-                    else{
-                        animationViewNoInternet.show()
-                        tvNoInternet.show()
-                        frameSearch.hide()
-                    }
-                    return@setOnKeyListener true
-                }
-                return@setOnKeyListener false
-            }
-//            etSearch.addTextChangedListener {
-//                val text=it.toString()
-//                if (text.length>=3) loadSearch(text)
-//            }
-            ivBack.setOnClickListener {
-                findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
-            }
-            requireActivity().onBackPressedDispatcher.addCallback(this@SearchFragment){
-                findNavController().navigate(R.id.action_searchFragment_to_homeFragment)
-            }
-
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
-    private fun loadSearch(s: String,page: Int) {
+    private fun loadSearch(s: String, page: Int) {
         binding.animationView.show()
         ApiClient.apiService.getSearch(s, page).enqueue(object : Callback<Popular> {
             override fun onResponse(call: Call<Popular>, response: Response<Popular>) {
                 if (response.isSuccessful) {
-                    list=response.body()!!.results
+                    list = response.body()!!.results
                     adapter.submitList(list)
                     binding.animationView.hide()
                 }
@@ -131,13 +130,15 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         return pages
     }
 
-    private fun hideKeyboard(){
-        val hide=requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        hide.hideSoftInputFromWindow(requireView().windowToken,0)
+    private fun hideKeyboard() {
+        val hide =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        hide.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 
     private fun isInternetAviable(): Boolean {
-        val manager = activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager =
+            activity?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val infoMobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
         val infoWifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
         return infoMobile!!.isConnected || infoWifi!!.isConnected
