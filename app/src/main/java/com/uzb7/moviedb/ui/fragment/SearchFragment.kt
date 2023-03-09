@@ -46,6 +46,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
             ivRemoveSearch.setOnClickListener { etSearch.text.clear() }
 
+            filRvSearch()
+
             etSearch.setOnKeyListener { _, keyCode, event ->
                 if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
                     if (isInternetAviable()) {
